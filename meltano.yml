@@ -13,6 +13,9 @@ plugins:
   - label: PostgreSQL
     name: target-postgres
     pip_url: git+https://github.com/meltano/target-postgres.git
+  orchestrators:
+  - name: airflow
+    pip_url: wtforms==2.2.1 apache-airflow==1.10.2
   transformers:
   - name: dbt
     pip_url: dbt==0.14.4
