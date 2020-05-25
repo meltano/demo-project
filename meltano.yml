@@ -6,6 +6,16 @@ plugins:
     label: GitLab
     name: tap-gitlab
     pip_url: git+https://gitlab.com/meltano/tap-gitlab.git
+  - label: Salesforce
+    name: tap-salesforce
+    pip_url: git+https://gitlab.com/meltano/tap-salesforce.git
+    select:
+    - Contact.*
+    - Lead.*
+    - Opportunity.*
+    - OpportunityHistory.*
+    - Account.*
+    - User.*
   loaders:
   - label: JSONL
     name: target-jsonl
