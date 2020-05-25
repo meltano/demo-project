@@ -29,5 +29,11 @@ schedules:
   name: gitlab-to-jsonl
   start_date: 2020-05-01 00:00:00
   transform: skip
+- extractor: tap-gitlab
+  interval: '@daily'
+  loader: target-postgres
+  name: gitlab-to-postgres
+  start_date: 2020-05-01 00:00:00
+  transform: run
 send_anonymous_usage_stats: false
 version: 1
