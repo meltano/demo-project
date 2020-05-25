@@ -3,7 +3,7 @@ variables:
   MELTANO_IMAGE_TAG: latest
 
 image:
-  name: $MELTANO_IMAGE_NAME:MELTANO_IMAGE_TAG
+  name: $MELTANO_IMAGE_NAME:$MELTANO_IMAGE_TAG
   entrypoint: [""]
 
 before_script: &before_script
