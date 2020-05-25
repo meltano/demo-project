@@ -10,5 +10,8 @@ plugins:
   - label: JSONL
     name: target-jsonl
     pip_url: target-jsonl
+  - label: PostgreSQL
+    name: target-postgres
+    pip_url: git+https://github.com/meltano/target-postgres.git
 send_anonymous_usage_stats: false
 version: 1
