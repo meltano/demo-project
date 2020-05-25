@@ -18,6 +18,7 @@ plugins:
     - User.*
   - config:
       start_date: "2020-01-01T00:00:00Z"
+      user_agent: tap-covid-19 via meltano (https://gitlab.com/meltano/demo-project)
     capabilities:
     - catalog
     - discover
