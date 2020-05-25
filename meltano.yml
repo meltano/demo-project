@@ -10,12 +10,24 @@ plugins:
     name: tap-salesforce
     pip_url: git+https://gitlab.com/meltano/tap-salesforce.git
     select:
-    - User.*
-    - Opportunity.*
-    - Contact.*
-    - Account.*
     - Lead.*
     - OpportunityHistory.*
+    - Opportunity.*
+    - Account.*
+    - Contact.*
+    - User.*
+  - capabilities:
+    - catalog
+    - discover
+    - state
+    executable: tap-covid-19
+    name: tap-covid-19
+    namespace: tap_covid_19
+    pip_url: tap-covid-19
+    settings:
+    - name: api_token
+    - name: user_agent
+    - name: start_date
   loaders:
   - label: JSONL
     name: target-jsonl
