@@ -1,2 +1,7 @@
+plugins:
+  extractors:
+  - label: GitLab
+    name: tap-gitlab
+    pip_url: git+https://gitlab.com/meltano/tap-gitlab.git
 send_anonymous_usage_stats: false
 version: 1
