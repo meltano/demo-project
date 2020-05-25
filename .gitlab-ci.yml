@@ -2,12 +2,13 @@ image:
   name: meltano/meltano
   entrypoint: [""]
 
-before_script:
+before_script: &before_script
 - meltano --version
 - meltano install
 
 elt:gitlab-to-jsonl:
   before_script:
+  - *before_script
   - mkdir -p output
   script:
   - meltano elt tap-gitlab target-jsonl --job_id=gitlab-to-jsonl
@@ -34,6 +35,7 @@ elt:gitlab-to-postgres:
   before_script:
   - apt-get update -y
   - apt-get install -y postgresql-client
+  - *before_script
   script:
   - meltano elt tap-gitlab target-postgres --transform=run --job_id=gitlab-to-postgres
   - PGPASSWORD=$PG_PASSWORD psql -U $PG_USERNAME -h $PG_ADDRESS -p $PG_PORT -d $PG_DATABASE -c "SELECT * FROM analytics.gitlab_tags LIMIT 1;"
