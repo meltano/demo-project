@@ -3,5 +3,7 @@ plugins:
   - label: GitLab
     name: tap-gitlab
     pip_url: git+https://gitlab.com/meltano/tap-gitlab.git
+    config:
+      projects: meltano/meltano
 send_anonymous_usage_stats: false
 version: 1
