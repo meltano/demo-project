@@ -22,5 +22,12 @@ plugins:
     vars:
       schema: '{{ env_var(''MELTANO_LOAD_SCHEMA'') }}'
       ultimate_license: '{{ env_var(''GITLAB_API_ULTIMATE_LICENSE'', False) }}'
+schedules:
+- extractor: tap-gitlab
+  interval: '@hourly'
+  loader: target-jsonl
+  name: gitlab-to-jsonl
+  start_date: 2020-05-01 00:00:00
+  transform: skip
 send_anonymous_usage_stats: false
 version: 1
