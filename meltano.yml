@@ -13,5 +13,8 @@ plugins:
   - label: PostgreSQL
     name: target-postgres
     pip_url: git+https://github.com/meltano/target-postgres.git
+  transformers:
+  - name: dbt
+    pip_url: dbt==0.14.4
 send_anonymous_usage_stats: false
 version: 1
