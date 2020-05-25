@@ -54,5 +54,8 @@ config:tap-covid-19:
   - meltano config tap-covid-19
 
 select:tap-covid-19:
+  # variables:
+    # `tap-covid-19` extractor configuration
+    # TAP_COVID_19_API_TOKEN: set through https://gitlab.com/meltano/demo-project/-/settings/ci_cd
   script:
   - meltano select --list tap-covid-19
