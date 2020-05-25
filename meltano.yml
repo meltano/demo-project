@@ -1,10 +1,14 @@
 plugins:
   extractors:
-  - label: GitLab
+  - config:
+      projects: meltano/meltano
+      start_date: '2020-05-01'
+    label: GitLab
     name: tap-gitlab
     pip_url: git+https://gitlab.com/meltano/tap-gitlab.git
-    config:
-      projects: meltano/meltano
-      start_date: "2020-05-01"
+  loaders:
+  - label: JSONL
+    name: target-jsonl
+    pip_url: target-jsonl
 send_anonymous_usage_stats: false
 version: 1
