@@ -16,7 +16,9 @@ plugins:
     - Account.*
     - Contact.*
     - User.*
-  - capabilities:
+  - config:
+      start_date: "2020-01-01T00:00:00Z"
+    capabilities:
     - catalog
     - discover
     - state
