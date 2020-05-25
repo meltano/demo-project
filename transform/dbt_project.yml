@@ -1,18 +1,28 @@
-name: 'my_meltano_project'
-version: '1.0'
-profile: 'meltano'
-source-paths: ["models"]
-analysis-paths: ["analysis"]
-test-paths: ["tests"]
-data-paths: ["data"]
-macro-paths: ["macros"]
-snapshot-paths: ["snapshots"]
-target-path: "../.meltano/transformers/dbt/target"
-log-path: "logs"
-modules-path: "dbt_modules"
+analysis-paths:
+- analysis
 clean-targets:
-    - "../.meltano/transformers/dbt/target"
-    - "dbt_modules"
-    - "logs"
+- ../.meltano/transformers/dbt/target
+- dbt_modules
+- logs
+data-paths:
+- data
+log-path: logs
+macro-paths:
+- macros
 models:
   my_meltano_project: null
+  tap_gitlab:
+    vars:
+      schema: '{{ env_var(''MELTANO_LOAD_SCHEMA'') }}'
+      ultimate_license: '{{ env_var(''GITLAB_API_ULTIMATE_LICENSE'', False) }}'
+modules-path: dbt_modules
+name: my_meltano_project
+profile: meltano
+snapshot-paths:
+- snapshots
+source-paths:
+- models
+target-path: ../.meltano/transformers/dbt/target
+test-paths:
+- tests
+version: '1.0'
