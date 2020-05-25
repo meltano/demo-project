@@ -13,6 +13,11 @@ elt:gitlab-to-jsonl:
   script:
   - meltano elt tap-gitlab target-jsonl --job_id=gitlab-to-jsonl
   - head -n 1 output/tags.jsonl
+  artifacts:
+    paths:
+    - .meltano/run/elt
+    - output
+    when: always
 
 elt:gitlab-to-postgres:
   variables:
@@ -39,6 +44,10 @@ elt:gitlab-to-postgres:
   script:
   - meltano elt tap-gitlab target-postgres --transform=run --job_id=gitlab-to-postgres
   - PGPASSWORD=$PG_PASSWORD psql -U $PG_USERNAME -h $PG_ADDRESS -p $PG_PORT -d $PG_DATABASE -c "SELECT * FROM analytics.gitlab_tags LIMIT 1;"
+  artifacts:
+    paths:
+    - .meltano/run/elt
+    when: always
 
 config:tap-covid-19:
   script:
