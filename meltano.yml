@@ -54,7 +54,7 @@ plugins:
     pip_url: wtforms==2.2.1 apache-airflow==1.10.2
   transformers:
   - name: dbt
-    pip_url: dbt==0.14.4
+    pip_url: dbt==0.16.1
   transforms:
   - name: tap-gitlab
     pip_url: https://gitlab.com/meltano/dbt-tap-gitlab.git
