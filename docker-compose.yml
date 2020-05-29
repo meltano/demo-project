@@ -1,18 +1,83 @@
-version: '3.1'
+version: '3.8'
+
+x-meltano-project: &meltano-project
+  image: meltano/demo-project
+  build: .
+  depends_on:
+  - meltano_db
+  - airflow_db
+  - warehouse_db
+  environment:
+    MELTANO_DATABASE_URI: postgresql://postgres:postgres@meltano_db/meltano
+
+    AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql://postgres:postgres@airflow_db/airflow
+    AIRFLOW__CORE__EXECUTOR: LocalExecutor
+
+    PG_ADDRESS: warehouse_db
+    PG_PORT: 5432
+    PG_USERNAME: postgres
+    PG_PASSWORD: postgres
+    PG_DATABASE: warehouse
+  volumes:
+  - ./output:/project/output
+  restart: unless-stopped
+
 services:
-  meltano:
-    image: meltano/meltano
-    working_dir: /project
-    volumes:
-    - ./:/project
+  meltano_ui:
+    << : *meltano-project
+    command: ui
     ports:
-    - '5000:5000'
-    - '5010:5010'
+    - 5000:5000
+
+  airflow_scheduler:
+    << : *meltano-project
+    command: invoke airflow scheduler
+    ports:
+    - 8793:8793
+
+  airflow_webserver:
+    << : *meltano-project
+    command: invoke airflow webserver
+    ports:
+    - 8080:8080
+
+  meltano_db:
+    image: postgres:11
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: meltano
+    volumes:
+    - meltano_pgdata:/var/lib/postgresql/data
+    ports:
+    - 5433:5432
+    restart: unless-stopped
+
+  airflow_db:
+    image: postgres:11
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: airflow
+    volumes:
+    - airflow_pgdata:/var/lib/postgresql/data
+    ports:
+    - 5434:5432
+    restart: unless-stopped
+
   warehouse_db:
     image: postgres:11
     environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
       POSTGRES_DB: warehouse
-      POSTGRES_PASSWORD: warehouse
-      POSTGRES_USER: warehouse
+    volumes:
+    - warehouse_pgdata:/var/lib/postgresql/data
     ports:
-    - '5502:5432'
+    - 5432:5432
+    restart: unless-stopped
+
+volumes:
+  meltano_pgdata:
+  airflow_pgdata:
+  warehouse_pgdata:
