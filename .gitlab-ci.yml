@@ -2,15 +2,30 @@ variables:
   MELTANO_IMAGE_NAME: meltano/meltano
   MELTANO_IMAGE_TAG: latest
 
-image:
-  name: $MELTANO_IMAGE_NAME:$MELTANO_IMAGE_TAG
-  entrypoint: [""]
+build:
+  stage: build
+  image: docker:stable
+  variables:
+    DOCKER_DRIVER: overlay2
+    MELTANO_IMAGE: $MELTANO_IMAGE_NAME:$MELTANO_IMAGE_TAG
+  services:
+  - docker:dind
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA --build-arg MELTANO_IMAGE=$MELTANO_IMAGE .
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
 
-before_script: &before_script
-- meltano --version
-- meltano install
+.meltano-project:
+  image:
+    name: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    entrypoint: [""]
+
+  before_script: &before_script
+  - cp -r /project/.meltano .
+  - cp /project/discovery.yml .
 
 elt:gitlab-to-jsonl:
+  extends: .meltano-project
   before_script:
   - *before_script
   - mkdir -p output
@@ -24,6 +39,7 @@ elt:gitlab-to-jsonl:
     when: always
 
 elt:gitlab-to-postgres:
+  extends: .meltano-project
   variables:
     # `postgres` service configuration
     POSTGRES_HOST_AUTH_METHOD: trust
@@ -42,9 +58,9 @@ elt:gitlab-to-postgres:
   services:
   - postgres:11
   before_script:
+  - *before_script
   - apt-get update -y
   - apt-get install -y postgresql-client
-  - *before_script
   script:
   - meltano elt tap-gitlab target-postgres --transform=run --job_id=gitlab-to-postgres
   - PGPASSWORD=$PG_PASSWORD psql -U $PG_USERNAME -h $PG_ADDRESS -p $PG_PORT -d $PG_DATABASE -c "SELECT * FROM analytics.gitlab_tags LIMIT 1;"
@@ -54,10 +70,12 @@ elt:gitlab-to-postgres:
     when: always
 
 config:tap-covid-19:
+  extends: .meltano-project
   script:
   - meltano config tap-covid-19
 
 select:tap-covid-19:
+  extends: .meltano-project
   # variables:
     # `tap-covid-19` extractor configuration
     # TAP_COVID_19_API_TOKEN: set through https://gitlab.com/meltano/demo-project/-/settings/ci_cd
