@@ -1,13 +1,15 @@
+version: 1
+send_anonymous_usage_stats: false
 plugins:
   extractors:
-  - config:
+  - name: tap-gitlab
+    label: GitLab
+    pip_url: git+https://gitlab.com/meltano/tap-gitlab.git
+    config:
       projects: meltano/meltano
       start_date: '2020-05-01'
-    label: GitLab
-    name: tap-gitlab
-    pip_url: git+https://gitlab.com/meltano/tap-gitlab.git
-  - label: Salesforce
-    name: tap-salesforce
+  - name: tap-salesforce
+    label: Salesforce
     pip_url: git+https://gitlab.com/meltano/tap-salesforce.git
     select:
     - Contact.*
@@ -16,17 +18,18 @@ plugins:
     - Opportunity.*
     - OpportunityHistory.*
     - Lead.*
-  - capabilities:
+  - name: tap-covid-19
+    namespace: tap_covid_19
+    pip_url: tap-covid-19
+    executable: tap-covid-19
+    capabilities:
     - catalog
     - discover
     - state
-    config:
-      start_date: '2020-01-01T00:00:00Z'
-      user_agent: tap-covid-19 via meltano (https://gitlab.com/meltano/demo-project)
-    executable: tap-covid-19
-    name: tap-covid-19
-    namespace: tap_covid_19
-    pip_url: tap-covid-19
+    settings:
+    - name: api_token
+    - name: user_agent
+    - name: start_date
     select:
     - eu_daily.cases
     - eu_ecdc_daily.*
@@ -34,45 +37,42 @@ plugins:
     - eu_daily.country
     - eu_daily.deaths
     - eu_daily.date
-    settings:
-    - name: api_token
-    - name: user_agent
-    - name: start_date
+    config:
+      start_date: '2020-01-01T00:00:00Z'
+      user_agent: tap-covid-19 via meltano (https://gitlab.com/meltano/demo-project)
   loaders:
-  - label: JSONL
-    name: target-jsonl
+  - name: target-jsonl
+    label: JSONL
     pip_url: target-jsonl
-  - label: PostgreSQL
-    name: target-postgres
+  - name: target-postgres
+    label: PostgreSQL
     pip_url: git+https://github.com/meltano/target-postgres.git
-  - label: Snowflake
-    name: target-snowflake
+  - name: target-snowflake
+    label: Snowflake
     pip_url: git+https://gitlab.com/meltano/target-snowflake.git
     signup_url: https://trial.snowflake.com?referrer=meltano
-  orchestrators:
-  - name: airflow
-    pip_url: wtforms==2.2.1 apache-airflow==1.10.2
-  transformers:
-  - name: dbt
-    pip_url: dbt==0.16.1
   transforms:
   - name: tap-gitlab
     pip_url: https://gitlab.com/meltano/dbt-tap-gitlab.git
     vars:
       schema: '{{ env_var(''MELTANO_LOAD_SCHEMA'') }}'
       ultimate_license: '{{ env_var(''GITLAB_API_ULTIMATE_LICENSE'', False) }}'
+  orchestrators:
+  - name: airflow
+    pip_url: wtforms==2.2.1 apache-airflow==1.10.2
+  transformers:
+  - name: dbt
+    pip_url: dbt==0.16.1
 schedules:
-- extractor: tap-gitlab
-  interval: '@hourly'
+- name: gitlab-to-jsonl
+  extractor: tap-gitlab
   loader: target-jsonl
-  name: gitlab-to-jsonl
-  start_date: 2020-05-01 00:00:00
   transform: skip
-- extractor: tap-gitlab
-  interval: '@daily'
-  loader: target-postgres
-  name: gitlab-to-postgres
+  interval: '@hourly'
   start_date: 2020-05-01 00:00:00
+- name: gitlab-to-postgres
+  extractor: tap-gitlab
+  loader: target-postgres
   transform: run
-send_anonymous_usage_stats: false
-version: 1
+  interval: '@daily'
+  start_date: 2020-05-01 00:00:00
