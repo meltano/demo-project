@@ -63,6 +63,11 @@ plugins:
   transformers:
   - name: dbt
     pip_url: dbt==0.16.1
+  files:
+  - name: airflow
+    pip_url: git+https://gitlab.com/meltano/files-airflow.git
+  - name: dbt
+    pip_url: git+https://gitlab.com/meltano/files-dbt.git
 schedules:
 - name: gitlab-to-jsonl
   extractor: tap-gitlab
