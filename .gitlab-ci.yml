@@ -1,5 +1,15 @@
 stages:
+- build
 - test
 
+.only:master:
+  only:
+    refs: [master]
+
+.except:master:
+  except:
+    refs: [master]
+
 include:
+- .gitlab/ci/docker.gitlab-ci.yml
 - .gitlab/ci/test.gitlab-ci.yml

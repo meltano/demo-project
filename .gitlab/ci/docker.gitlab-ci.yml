@@ -1,0 +1,48 @@
+variables:
+  MELTANO_IMAGE: meltano/meltano:latest
+
+.docker-build:
+  stage: build
+  image: docker:stable
+  variables:
+    DOCKER_DRIVER: overlay2
+  services: ["docker:dind"]
+  before_script:
+  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME || true
+  script: &docker-build-script
+  - >
+    docker build
+    --cache-from $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
+    --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
+    --build-arg MELTANO_IMAGE=$MELTANO_IMAGE
+    .
+  - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+  - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
+
+# Tags <project>:<sha>
+# Tags <project>:<ref> (<branch> or <tag>)
+docker-build-dev:
+  extends:
+  - .docker-build
+  - .except:master
+
+# Tags <project>:<sha>
+# Tags <project>:<ref> (<branch> or <tag>)
+# Tags <project>:latest
+docker-build-latest:
+  extends:
+  - .docker-build
+  - .only:master
+  script:
+  - *docker-build-script
+  - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE:latest
+  - docker push $CI_REGISTRY_IMAGE:latest
+
+.image:project:
+  image:
+    name: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    entrypoint: [""]
+  before_script:
+  - cp -Rn /project/. .
