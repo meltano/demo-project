@@ -11,7 +11,7 @@ RUN pip install -r requirements.txt
 RUN meltano install
 
 # Pin `discovery.yml` manifest by copying cached version to project root
-RUN ["/bin/bash", "-c", "[[ -f .meltano/cache/discovery.yml ]] && cp -n .meltano/cache/discovery.yml ."]
+RUN cp -n .meltano/cache/discovery.yml . 2>/dev/null || :
 
 # Don't allow changes to containerized project
 ENV MELTANO_READONLY 1
