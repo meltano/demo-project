@@ -7,7 +7,7 @@ plugins:
     pip_url: git+https://gitlab.com/meltano/tap-gitlab.git
     config:
       projects: meltano/meltano
-      start_date: '2020-05-01'
+      start_date: '2020-05-01T00:00:00Z'
   - name: tap-salesforce
     label: Salesforce
     pip_url: git+https://gitlab.com/meltano/tap-salesforce.git
