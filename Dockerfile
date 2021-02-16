@@ -1,4 +1,6 @@
 ARG MELTANO_IMAGE=meltano/meltano:latest
+ARG MELTANO_DISCOVERY_URL
+
 FROM $MELTANO_IMAGE
 
 WORKDIR /project
