@@ -1,5 +1,6 @@
 variables:
   MELTANO_IMAGE: meltano/meltano:latest
+  MELTANO_DISCOVERY_URL: https://www.meltano.com/discovery.yml
 
 .docker-build:
   stage: build
@@ -17,6 +18,7 @@ variables:
     --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
     --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
     --build-arg MELTANO_IMAGE=$MELTANO_IMAGE
+    --build-arg MELTANO_DISCOVERY_URL=$MELTANO_DISCOVERY_URL
     .
   - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
   - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
