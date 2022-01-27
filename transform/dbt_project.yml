@@ -1,10 +1,13 @@
+config-version: 2
+require-dbt-version: [">=1.0.0", "<2.0.0"]
+
 analysis-paths:
 - analysis
 clean-targets:
 - ../.meltano/transformers/dbt/target
-- dbt_modules
+- dbt_packages
 - logs
-data-paths:
+seed-paths:
 - data
 log-path: logs
 macro-paths:
@@ -15,12 +18,12 @@ models:
     vars:
       schema: '{{ env_var(''MELTANO_LOAD_SCHEMA'') }}'
       ultimate_license: '{{ env_var(''GITLAB_API_ULTIMATE_LICENSE'', False) }}'
-modules-path: dbt_modules
+packages-install-path: dbt_packages
 name: my_meltano_project
 profile: meltano
 snapshot-paths:
 - snapshots
-source-paths:
+model-paths:
 - models
 target-path: ../.meltano/transformers/dbt/target
 test-paths:

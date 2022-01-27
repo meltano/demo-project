@@ -53,7 +53,7 @@ plugins:
     signup_url: https://trial.snowflake.com?referrer=meltano
   transforms:
   - name: tap-gitlab
-    pip_url: https://gitlab.com/meltano/dbt-tap-gitlab.git
+    pip_url: https://gitlab.com/meltano/dbt-tap-gitlab.git@config-version-2
     vars:
       schema: '{{ env_var(''MELTANO_LOAD_SCHEMA'') }}'
       ultimate_license: '{{ env_var(''GITLAB_API_ULTIMATE_LICENSE'', False) }}'
@@ -62,12 +62,12 @@ plugins:
     pip_url: 'apache-airflow==1.10.12 --constraint https://raw.githubusercontent.com/apache/airflow/constraints-1.10.12/constraints-3.6.txt'
   transformers:
   - name: dbt
-    pip_url: dbt==0.16.1
+    pip_url: dbt-core==1.0.1 dbt-postgres==1.0.1
   files:
   - name: airflow
     pip_url: git+https://gitlab.com/meltano/files-airflow.git
   - name: dbt
-    pip_url: git+https://gitlab.com/meltano/files-dbt.git
+    pip_url: git+https://gitlab.com/meltano/files-dbt.git@config-version-2
 schedules:
 - name: gitlab-to-jsonl
   extractor: tap-gitlab
