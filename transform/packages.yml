@@ -1,2 +1,2 @@
 packages:
-- git: https://gitlab.com/meltano/dbt-tap-gitlab.git
+- git: https://gitlab.com/meltano/dbt-tap-gitlab.git@config-version-2
