@@ -7,7 +7,7 @@ plugins:
     pip_url: git+https://gitlab.com/meltano/tap-gitlab.git
     config:
       projects: meltano/meltano
-      start_date: '2021-03-01T00:00:00Z'
+      start_date: '2021-10-01T00:00:00Z'
   - name: tap-salesforce
     label: Salesforce
     pip_url: git+https://gitlab.com/meltano/tap-salesforce.git
@@ -74,10 +74,10 @@ schedules:
   loader: target-jsonl
   transform: skip
   interval: '@hourly'
-  start_date: 2021-03-01 00:00:00
+  start_date: 2021-10-01 00:00:00
 - name: gitlab-to-postgres
   extractor: tap-gitlab
   loader: target-postgres
   transform: run
   interval: '@daily'
-  start_date: 2021-03-01 00:00:00
+  start_date: 2021-10-01 00:00:00
