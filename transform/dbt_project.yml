@@ -12,12 +12,12 @@ seed-paths:
 log-path: logs
 macro-paths:
 - macros
+vars:
+  tap_gitlab:
+    schema: '{{ env_var(''MELTANO_LOAD_SCHEMA'') }}'
+    ultimate_license: '{{ env_var(''GITLAB_API_ULTIMATE_LICENSE'', False) }}'
 models:
   my_meltano_project: null
-  tap_gitlab:
-    vars:
-      schema: '{{ env_var(''MELTANO_LOAD_SCHEMA'') }}'
-      ultimate_license: '{{ env_var(''GITLAB_API_ULTIMATE_LICENSE'', False) }}'
 packages-install-path: dbt_packages
 name: my_meltano_project
 profile: meltano
