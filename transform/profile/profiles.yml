@@ -25,7 +25,7 @@ meltano:
       type: postgres
       threads: 2
       host: "{{ env_var('PG_ADDRESS') }}"
-      port: "{{ env_var('PG_PORT') }}"
+      port: "{{ env_var('PG_PORT') | int }}"
       user: "{{ env_var('PG_USERNAME') }}"
       pass: "{{ env_var('PG_PASSWORD') }}"
       dbname: "{{ env_var('PG_DATABASE') }}"
