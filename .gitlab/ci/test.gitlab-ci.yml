@@ -38,6 +38,10 @@ elt:gitlab-to-postgres:
   script:
   - meltano elt tap-gitlab target-postgres --transform=run --job_id=gitlab-to-postgres
   - PGPASSWORD=$PG_PASSWORD psql -U $PG_USERNAME -h $PG_ADDRESS -p $PG_PORT -d $PG_DATABASE -c "SELECT * FROM analytics.gitlab_tags LIMIT 1;"
+  cache:
+  - key: "global"
+    paths:
+    - ./api_caches/
   artifacts:
     paths:
     - .meltano/run/elt

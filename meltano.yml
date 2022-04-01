@@ -4,10 +4,11 @@ plugins:
   extractors:
   - name: tap-gitlab
     label: GitLab
-    pip_url: git+https://gitlab.com/meltano/tap-gitlab.git
+    pip_url: git+https://gitlab.com/meltano/tap-gitlab.git@v2.0.0-alpha2
     config:
       projects: meltano/meltano
       start_date: '2021-10-01T00:00:00Z'
+      requests_cache_path: ${MELTANO_PROJECT_ROOT}/api_caches/
   - name: tap-salesforce
     label: Salesforce
     pip_url: git+https://gitlab.com/meltano/tap-salesforce.git
