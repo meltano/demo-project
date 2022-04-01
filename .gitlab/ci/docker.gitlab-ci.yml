@@ -48,3 +48,9 @@ docker-build-latest:
     entrypoint: [""]
   before_script:
   - cp -Rn /project/. .
+  cache:
+  # Reuse upstream API caches globally when running EL pipelines.
+  # This cuts down CI failures due to upstream service availability.
+  - key: "global"
+    paths:
+    - ./api_caches/
