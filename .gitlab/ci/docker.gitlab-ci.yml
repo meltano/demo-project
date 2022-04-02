@@ -48,6 +48,12 @@ docker-build-latest:
     entrypoint: [""]
   before_script:
   - cp -Rn /project/. .
+  artifacts:
+    paths:
+    - .meltano/run/elt
+    - .meltano/logs/elt
+    - output
+    when: always
   cache:
   # Reuse upstream API caches globally when running EL pipelines.
   # This cuts down CI failures due to upstream service availability.
