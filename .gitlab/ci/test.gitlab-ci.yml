@@ -4,7 +4,7 @@ elt:gitlab-to-jsonl:
   - cp -Rn /project/. . # from .image:project
   - mkdir -p output
   script:
-  - meltano --log-level=debug elt tap-gitlab target-jsonl --job_id=gitlab-to-jsonl
+  - meltano elt tap-gitlab target-jsonl --job_id=gitlab-to-jsonl
   - head -n 1 output/tags.jsonl
 
 elt:gitlab-to-postgres:
@@ -31,7 +31,7 @@ elt:gitlab-to-postgres:
   - apt-get update -y
   - apt-get install -y postgresql-client
   script:
-  - meltano --log-level=debug elt tap-gitlab target-postgres --transform=run --job_id=gitlab-to-postgres
+  - meltano elt tap-gitlab target-postgres --transform=run --job_id=gitlab-to-postgres
   - PGPASSWORD=$PG_PASSWORD psql -U $PG_USERNAME -h $PG_ADDRESS -p $PG_PORT -d $PG_DATABASE -c "SELECT * FROM analytics.gitlab_tags LIMIT 1;"
 
 config:tap-covid-19:
