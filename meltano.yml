@@ -4,7 +4,8 @@ plugins:
   extractors:
   - name: tap-gitlab
     label: GitLab
-    pip_url: git+https://github.com/meltanolabs/tap-gitlab.git@v2.0.0-alpha2
+    # pip_url: git+https://github.com/meltanolabs/tap-gitlab.git@v2.0.0-alpha2
+    pip_url: git+https://github.com/meltanolabs/tap-gitlab.git@main
     config:
       projects: meltano/meltano
       start_date: '2021-10-01T00:00:00Z'
