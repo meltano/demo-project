@@ -10,7 +10,7 @@ plugins:
     # For local testing:
     # pip_url: -e ./../tap-gitlab
     select:
-    - !branches
+    - "!branches"
     config:
       projects: meltano/meltano
       start_date: '2021-10-01T00:00:00Z'
