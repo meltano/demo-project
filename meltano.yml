@@ -4,7 +4,8 @@ plugins:
   extractors:
   - name: tap-gitlab
     label: GitLab
-    pip_url: git+https://github.com/meltanolabs/tap-gitlab.git@main
+    # TODO: Revert to `main` or a version tag:
+    pip_url: git+https://github.com/meltanolabs/tap-gitlab.git@fix-demo-project-ref
     # For local testing:
     # pip_url: -e ./../tap-gitlab
     config:
