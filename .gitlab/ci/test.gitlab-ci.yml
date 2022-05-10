@@ -14,7 +14,7 @@ elt:gitlab-to-jsonl-failfast:
 
 elt:gitlab-to-postgres-failfast:
   extends: .image:project
-  needs: [elt:gitlab-to-jsonl-failfast]
+  needs: []
   image:
     name: python:3.8
   variables:
