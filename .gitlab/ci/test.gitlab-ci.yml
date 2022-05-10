@@ -1,3 +1,16 @@
+elt:gitlab-to-jsonl-failfast:
+  extends: .image:project
+  image:
+    name: python:3.8
+  before_script:
+  # - cp -Rn /project/. . # from .image:project
+  - mkdir -p output
+  script:
+  - pipx install meltano
+  - meltano install
+  - meltano elt tap-gitlab target-jsonl --job_id=gitlab-to-jsonl
+  - head -n 1 output/tags.jsonl
+
 elt:gitlab-to-jsonl:
   extends: .image:project
   before_script:
