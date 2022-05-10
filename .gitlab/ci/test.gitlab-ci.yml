@@ -9,6 +9,8 @@ elt:gitlab-to-jsonl:
 
 elt:gitlab-to-postgres:
   extends: .image:project
+  needs:
+  - elt:gitlab-to-jsonl
   variables:
     # `postgres` service configuration
     POSTGRES_HOST_AUTH_METHOD: trust
