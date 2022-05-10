@@ -11,7 +11,7 @@ plugins:
     # pip_url: -e ./../tap-gitlab
     config:
       projects: meltano/meltano
-      start_date: '2021-10-01T00:00:00Z'
+      start_date: '2022-01-01T00:00:00Z'
       requests_cache_path: ${MELTANO_PROJECT_ROOT}/api_caches/
   - name: tap-salesforce
     label: Salesforce
