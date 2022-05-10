@@ -42,7 +42,7 @@ elt:gitlab-to-postgres-failfast:
   - pip install meltano
   - meltano install
   - meltano elt tap-gitlab target-postgres --transform=run --job_id=gitlab-to-postgres
-  - PGPASSWORD=$PG_PASSWORD psql -U $PG_USERNAME -h $PG_ADDRESS -p $PG_PORT -d $PG_DATABASE -c "SELECT * FROM analytics.gitlab_tags LIMIT 1;"
+  - PGPASSWORD=$PG_PASSWORD psql -U $PG_USERNAME -h $PG_ADDRESS -p $PG_PORT -d $PG_DATABASE -c "SELECT * FROM analytics.gitlab_merge_requests LIMIT 1;"
 
 elt:gitlab-to-jsonl:
   extends: .image:project
@@ -80,7 +80,7 @@ elt:gitlab-to-postgres:
   - apt-get install -y postgresql-client
   script:
   - meltano elt tap-gitlab target-postgres --transform=run --job_id=gitlab-to-postgres
-  - PGPASSWORD=$PG_PASSWORD psql -U $PG_USERNAME -h $PG_ADDRESS -p $PG_PORT -d $PG_DATABASE -c "SELECT * FROM analytics.gitlab_tags LIMIT 1;"
+  - PGPASSWORD=$PG_PASSWORD psql -U $PG_USERNAME -h $PG_ADDRESS -p $PG_PORT -d $PG_DATABASE -c "SELECT * FROM analytics.gitlab_merge_requests LIMIT 1;"
 
 config:tap-covid-19:
   extends: .image:project
