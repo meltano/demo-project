@@ -16,8 +16,10 @@ plugins:
     select:
     - "*"
     - "*.*"
-    - "!project_labels"
-    - "!project_members"
+    - "!jobs"               # Slow!
+    - "!pipelines_extended" # Slow!
+    - "!project_labels"     # No perms.
+    - "!project_members"    # No perms.
     - "!group_labels"
     - "!group_members"
   - name: tap-salesforce
