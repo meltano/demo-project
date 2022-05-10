@@ -1,5 +1,6 @@
 elt:gitlab-to-jsonl-failfast:
   extends: .image:project
+  needs: []
   image:
     name: python:3.8
   before_script:
