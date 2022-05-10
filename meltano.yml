@@ -22,7 +22,7 @@ plugins:
     - "!project_members"          # No perms.
     - "!project_milestones"       # No perms.
     - "!project_variables"        # No perms.
-    - "!vulnerabilities"  # No perms.
+    - "!vulnerabilities"          # No perms.
     - "!users"                    # No perms.
   - name: tap-salesforce
     label: Salesforce
@@ -69,7 +69,7 @@ plugins:
     signup_url: https://trial.snowflake.com?referrer=meltano
   transforms:
   - name: tap-gitlab
-    pip_url: https://gitlab.com/meltano/dbt-tap-gitlab.git@config-version-2
+    pip_url: https://gitlab.com/meltano/dbt-tap-gitlab.git@lower-permission-tier
     vars:
       schema: '{{ env_var(''MELTANO_LOAD_SCHEMA'') }}'
       ultimate_license: '{{ env_var(''GITLAB_API_ULTIMATE_LICENSE'', False) }}'
