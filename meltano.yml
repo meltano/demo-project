@@ -17,6 +17,7 @@ plugins:
     - "*"
     - "*.*"
     - "!project_labels"
+    - "!members"
   - name: tap-salesforce
     label: Salesforce
     pip_url: git+https://gitlab.com/meltano/tap-salesforce.git
