@@ -20,8 +20,10 @@ plugins:
     - "!pipelines_extended" # Slow!
     - "!project_labels"     # No perms.
     - "!project_members"    # No perms.
+    - "!project_milestones" # No perms.
     - "!group_labels"
     - "!group_members"
+    - "!group_milestones"
   - name: tap-salesforce
     label: Salesforce
     pip_url: git+https://gitlab.com/meltano/tap-salesforce.git
