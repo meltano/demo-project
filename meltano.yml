@@ -6,7 +6,7 @@ plugins:
     label: GitLab
     # TODO: Revert to `main` or a version tag:
     pip_url: git+https://github.com/meltanolabs/tap-gitlab.git@fix-demo-project-ref
-    # Dummy change for CI - again again again.
+    # Dummy change for CI - again again again again.
     # For local testing:
     # pip_url: -e ./../tap-gitlab
     config:
