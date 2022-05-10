@@ -7,7 +7,7 @@ elt:gitlab-to-jsonl-failfast:
   # - cp -Rn /project/. . # from .image:project
   - mkdir -p output
   script:
-  - pipx install meltano
+  - pip install meltano
   - meltano install
   - meltano elt tap-gitlab target-jsonl --job_id=gitlab-to-jsonl
   - head -n 1 output/tags.jsonl
