@@ -35,7 +35,7 @@ elt:gitlab-to-postgres-failfast:
   services:
   - postgres:11
   before_script:
-  - cp -Rn /project/. . # from .image:project
+  # - cp -Rn /project/. . # from .image:project
   - apt-get update -y
   - apt-get install -y postgresql-client
   script:
