@@ -58,5 +58,6 @@ docker-build-latest:
   # Reuse upstream API caches globally when running EL pipelines.
   # This cuts down CI failures due to upstream service availability.
   - key: "global"
+    when: always
     paths:
     - ./api_caches/
