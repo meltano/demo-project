@@ -9,8 +9,6 @@ plugins:
     # Dummy change for CI - again.
     # For local testing:
     # pip_url: -e ./../tap-gitlab
-    select:
-    - "!branches"
     config:
       projects: meltano/meltano
       start_date: '2021-10-01T00:00:00Z'
