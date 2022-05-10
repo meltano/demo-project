@@ -54,10 +54,13 @@ docker-build-latest:
     - .meltano/logs/elt
     - output
     when: always
+  variables:
+    PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
   cache:
   # Reuse upstream API caches globally when running EL pipelines.
   # This cuts down CI failures due to upstream service availability.
   - key: "global"
     when: always
     paths:
+    - .cache/pip
     - ./api_caches/
