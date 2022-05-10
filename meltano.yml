@@ -21,9 +21,8 @@ plugins:
     - "!project_labels"     # No perms.
     - "!project_members"    # No perms.
     - "!project_milestones" # No perms.
-    - "!group_labels"
-    - "!group_members"
-    - "!group_milestones"
+    - "!project_variables"  # No perms.
+    - "!users"              # No perms.
   - name: tap-salesforce
     label: Salesforce
     pip_url: git+https://gitlab.com/meltano/tap-salesforce.git
