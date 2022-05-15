@@ -24,7 +24,7 @@ plugins:
     - "!project_variables"        # No perms.
     - "!vulnerabilities"          # No perms.
     - "!users"                    # No perms.
-    - "!merge_request_commits"    # Bad or missing primary key in tap definition.
+    # - "!merge_request_commits"    # Bad or missing primary key in tap definition.
     - "!tags"                     # Bad or missing primary key in tap definition.
   - name: tap-salesforce
     label: Salesforce
