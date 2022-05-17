@@ -18,8 +18,8 @@ plugins:
     - "*.*"
     - "!jobs"                     # Slow!
     - "!pipelines_extended"       # Slow!
-    - "!project_labels"           # No perms.
-    - "!project_members"          # No perms.
+    # - "!project_labels"           # No perms.
+    # - "!project_members"          # No perms.
     - "!project_milestones"       # No perms.
     - "!project_variables"        # No perms.
     - "!vulnerabilities"          # No perms.
