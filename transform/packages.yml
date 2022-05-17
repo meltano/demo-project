@@ -1,3 +1,3 @@
 packages:
 - git: https://gitlab.com/meltano/dbt-tap-gitlab.git
-  revision: config-version-2
+  revision: lower-permission-tier

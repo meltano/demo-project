@@ -1,3 +1,47 @@
+elt:gitlab-to-jsonl-failfast:
+  extends: .image:project
+  needs: []
+  image:
+    name: python:3.8
+  before_script:
+  - mkdir -p output
+  script:
+  - pip install meltano
+  - meltano install
+  - meltano elt tap-gitlab target-jsonl --job_id=gitlab-to-jsonl
+  - head -n 1 output/tags.jsonl
+
+elt:gitlab-to-postgres-failfast:
+  extends: .image:project
+  needs: []
+  image:
+    name: python:3.8
+  variables:
+    # `postgres` service configuration
+    POSTGRES_HOST_AUTH_METHOD: trust
+    POSTGRES_ADDRESS: postgres
+    POSTGRES_PORT: 5432
+    POSTGRES_USER: meltano
+    POSTGRES_PASSWORD: ""
+    POSTGRES_DB: demo-warehouse
+
+    # `target-postgres` configuration
+    PG_ADDRESS: $POSTGRES_ADDRESS
+    PG_PORT: $POSTGRES_PORT
+    PG_USERNAME: $POSTGRES_USER
+    PG_PASSWORD: $POSTGRES_PASSWORD
+    PG_DATABASE: $POSTGRES_DB
+  services:
+  - postgres:11
+  before_script:
+  - apt-get update -y
+  - apt-get install -y postgresql-client
+  script:
+  - pip install meltano
+  - meltano install
+  - meltano elt tap-gitlab target-postgres --transform=run --job_id=gitlab-to-postgres
+  - PGPASSWORD=$PG_PASSWORD psql -U $PG_USERNAME -h $PG_ADDRESS -p $PG_PORT -d $PG_DATABASE -c "SELECT * FROM analytics.gitlab_merge_requests LIMIT 1;"
+
 elt:gitlab-to-jsonl:
   extends: .image:project
   before_script:
@@ -6,11 +50,6 @@ elt:gitlab-to-jsonl:
   script:
   - meltano elt tap-gitlab target-jsonl --job_id=gitlab-to-jsonl
   - head -n 1 output/tags.jsonl
-  artifacts:
-    paths:
-    - .meltano/run/elt
-    - output
-    when: always
 
 elt:gitlab-to-postgres:
   extends: .image:project
@@ -37,11 +76,7 @@ elt:gitlab-to-postgres:
   - apt-get install -y postgresql-client
   script:
   - meltano elt tap-gitlab target-postgres --transform=run --job_id=gitlab-to-postgres
-  - PGPASSWORD=$PG_PASSWORD psql -U $PG_USERNAME -h $PG_ADDRESS -p $PG_PORT -d $PG_DATABASE -c "SELECT * FROM analytics.gitlab_tags LIMIT 1;"
-  artifacts:
-    paths:
-    - .meltano/run/elt
-    when: always
+  - PGPASSWORD=$PG_PASSWORD psql -U $PG_USERNAME -h $PG_ADDRESS -p $PG_PORT -d $PG_DATABASE -c "SELECT * FROM analytics.gitlab_merge_requests LIMIT 1;"
 
 config:tap-covid-19:
   extends: .image:project
