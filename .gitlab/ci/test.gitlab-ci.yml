@@ -4,7 +4,6 @@ elt:gitlab-to-jsonl-failfast:
   image:
     name: python:3.8
   before_script:
-  - cp -Rn /project/. . # from .image:project
   - mkdir -p output
   script:
   - pip install meltano
@@ -35,7 +34,6 @@ elt:gitlab-to-postgres-failfast:
   services:
   - postgres:11
   before_script:
-  - cp -Rn /project/. . # from .image:project
   - apt-get update -y
   - apt-get install -y postgresql-client
   script:
