@@ -4,10 +4,18 @@ plugins:
   extractors:
   - name: tap-gitlab
     label: GitLab
-    pip_url: git+https://gitlab.com/meltano/tap-gitlab.git
+    pip_url: git+https://github.com/meltanolabs/tap-gitlab.git@main
+    # Or for local testing:
+    # pip_url: -e ./../tap-gitlab
     config:
       projects: meltano/meltano
-      start_date: '2021-10-01T00:00:00Z'
+      start_date: '2022-01-01T00:00:00Z'
+      requests_cache_path: ${MELTANO_PROJECT_ROOT}/api_caches/
+    select:
+    - "*"
+    - "*.*"
+    - "!jobs"                     # Slow!
+    - "!pipelines_extended"       # Slow!
   - name: tap-salesforce
     label: Salesforce
     pip_url: git+https://gitlab.com/meltano/tap-salesforce.git
@@ -53,7 +61,7 @@ plugins:
     signup_url: https://trial.snowflake.com?referrer=meltano
   transforms:
   - name: tap-gitlab
-    pip_url: https://gitlab.com/meltano/dbt-tap-gitlab.git@config-version-2
+    pip_url: https://gitlab.com/meltano/dbt-tap-gitlab.git@lower-permission-tier
     vars:
       schema: '{{ env_var(''MELTANO_LOAD_SCHEMA'') }}'
       ultimate_license: '{{ env_var(''GITLAB_API_ULTIMATE_LICENSE'', False) }}'
