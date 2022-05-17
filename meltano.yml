@@ -6,7 +6,6 @@ plugins:
     label: GitLab
     # TODO: Revert to `main` or a version tag:
     pip_url: git+https://github.com/meltanolabs/tap-gitlab.git@fix-demo-project-ref
-    # Dummy change for CI - again again again again again...
     # For local testing:
     # pip_url: -e ./../tap-gitlab
     config:
@@ -18,12 +17,6 @@ plugins:
     - "*.*"
     - "!jobs"                     # Slow!
     - "!pipelines_extended"       # Slow!
-    # - "!project_labels"           # No perms.
-    # - "!project_members"          # No perms.
-    # - "!project_milestones"       # No perms.
-    # - "!project_variables"        # No perms.
-    # - "!vulnerabilities"          # No perms.
-    # - "!users"                    # No perms.
   - name: tap-salesforce
     label: Salesforce
     pip_url: git+https://gitlab.com/meltano/tap-salesforce.git
