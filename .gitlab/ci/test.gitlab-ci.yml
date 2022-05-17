@@ -50,6 +50,7 @@ elt:gitlab-to-jsonl:
   # - cp -Rn /project/. . # from .image:project
   - mkdir -p output
   script:
+  - meltano install extractor tap-gitlab
   - meltano elt tap-gitlab target-jsonl --job_id=gitlab-to-jsonl
   - head -n 1 output/tags.jsonl
 
