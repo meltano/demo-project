@@ -26,11 +26,11 @@ elt:gitlab-to-postgres-failfast:
     POSTGRES_DB: demo-warehouse
 
     # `target-postgres` configuration
-    PG_ADDRESS: $POSTGRES_ADDRESS
-    PG_PORT: $POSTGRES_PORT
-    PG_USERNAME: $POSTGRES_USER
-    PG_PASSWORD: $POSTGRES_PASSWORD
-    PG_DATABASE: $POSTGRES_DB
+    TARGET_POSTGRES_HOST: $POSTGRES_ADDRESS
+    TARGET_POSTGRES_PORT: $POSTGRES_PORT
+    TARGET_POSTGRES_USER: $POSTGRES_USER
+    TARGET_POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+    TARGET_POSTGRES_DBNAME: $POSTGRES_DB
   services:
   - postgres:11
   before_script:
@@ -40,7 +40,7 @@ elt:gitlab-to-postgres-failfast:
   - pip install meltano
   - meltano install
   - meltano elt tap-gitlab target-postgres --transform=run --job_id=gitlab-to-postgres
-  - PGPASSWORD=$PG_PASSWORD psql -U $PG_USERNAME -h $PG_ADDRESS -p $PG_PORT -d $PG_DATABASE -c "SELECT * FROM analytics.gitlab_merge_requests LIMIT 1;"
+  - PGPASSWORD=$TARGET_POSTGRES_PASSWORD psql -U $TARGET_POSTGRES_USER -h $TARGET_POSTGRES_HOST -p $TARGET_POSTGRES_PORT -d $TARGET_POSTGRES_DBNAME -c "SELECT * FROM analytics.gitlab_merge_requests LIMIT 1;"
 
 elt:gitlab-to-jsonl:
   extends: .image:project
@@ -63,11 +63,11 @@ elt:gitlab-to-postgres:
     POSTGRES_DB: demo-warehouse
 
     # `target-postgres` configuration
-    PG_ADDRESS: $POSTGRES_ADDRESS
-    PG_PORT: $POSTGRES_PORT
-    PG_USERNAME: $POSTGRES_USER
-    PG_PASSWORD: $POSTGRES_PASSWORD
-    PG_DATABASE: $POSTGRES_DB
+    TARGET_POSTGRES_HOST: $POSTGRES_ADDRESS
+    TARGET_POSTGRES_PORT: $POSTGRES_PORT
+    TARGET_POSTGRES_USER: $POSTGRES_USER
+    TARGET_POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+    TARGET_POSTGRES_DBNAME: $POSTGRES_DB
   services:
   - postgres:11
   before_script:
@@ -76,7 +76,7 @@ elt:gitlab-to-postgres:
   - apt-get install -y postgresql-client
   script:
   - meltano elt tap-gitlab target-postgres --transform=run --job_id=gitlab-to-postgres
-  - PGPASSWORD=$PG_PASSWORD psql -U $PG_USERNAME -h $PG_ADDRESS -p $PG_PORT -d $PG_DATABASE -c "SELECT * FROM analytics.gitlab_merge_requests LIMIT 1;"
+  - PGPASSWORD=$TARGET_POSTGRES_PASSWORD psql -U $TARGET_POSTGRES_USER -h $TARGET_POSTGRES_HOST -p $TARGET_POSTGRES_PORT -d $TARGET_POSTGRES_DBNAME -c "SELECT * FROM analytics.gitlab_merge_requests LIMIT 1;"
 
 config:tap-covid-19:
   extends: .image:project
