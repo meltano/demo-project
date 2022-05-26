@@ -6,7 +6,7 @@ elt:gitlab-to-jsonl-failfast:
   before_script:
   - mkdir -p output
   script:
-  - pip install meltano
+  - pip install git+https://gitlab.com/meltano/meltano.git@3283-support-meltano-add-directly-from-hub
   - meltano install
   - meltano elt tap-gitlab target-jsonl --job_id=gitlab-to-jsonl
   - head -n 1 output/tags.jsonl
