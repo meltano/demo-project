@@ -68,6 +68,7 @@ plugins:
   orchestrators:
   - name: airflow
     pip_url: 'apache-airflow==1.10.12 --constraint https://raw.githubusercontent.com/apache/airflow/constraints-1.10.12/constraints-3.6.txt'
+    variant: apache
   transformers:
   - name: dbt
     pip_url: dbt-core==1.0.2 dbt-postgres==1.0.2
